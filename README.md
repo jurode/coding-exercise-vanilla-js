@@ -2,7 +2,7 @@
 
 We're happy you applied for a job as frontend web developer at jobs.at :)
 Before you can get started at jobs.at, we have a small exercise for you where you can show us your skills
-as full-stack web developer.
+as developer.
 
 ## Exercise description
 
@@ -18,10 +18,9 @@ at the second interview with you together.
 ## Tasks to be done
 
 1. The home page should initially show a list of all recent jobs (the ones which were published within last week).
-   The `index.blade.php` is the home page which contains a dummy
-   `Home.vue` component as starting point for you.
+   The `index.blade.php` is the home page which contains a bare list of existing jobs.
 
-   Following information should be displayed:
+   Your task is to show following information in a structured and user-friendly way 
     * Title of the job.
     * Name of the company the job belongs to.
     * Description of the job.
