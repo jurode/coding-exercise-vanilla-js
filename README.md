@@ -35,8 +35,8 @@ should approximately look like.
 
 2. An input field should be provided where the user can search for a job by its title. As the user keeps typing
    the list of jobs should be adapted immediately based on the search pattern. The filtering should be done solely on the client
-   side in order to provide a good user experience. The project setup contains [Vue.js](https://vuejs.org)
-   which should be used to build the filtering feature on the client side.
+   side in order to provide a good user experience. The project setup contains a single `app.js` file, which is loaded on the home page 
+   and can be used as starting point to implement functionality on the client side. 
 
 3. According to the proposed UI mock-up (see bottom of this section), additional filter options should be provided to the user. Firstly, he/she should
    be able to narrow down the search results based on the selected locations shown in the sidebar. All locations from the available jobs should be selectable in the sidebar.
@@ -46,7 +46,7 @@ should approximately look like.
    as selectable options in the sidebar. All companies from the database should be shown in the sidebar.
    These should be loaded via a separate HTTP request. You can use the [axios HTTP client](https://github.com/axios/axios),
    which is already included in the project and registered on the `window` object. So you can use it right away.
-   The endpoint to load the companies can be accessed with `/companies`. You can find the definition in the `web.php` if you want to inspect it.    
+   The endpoint to load the companies can be accessed with `/companies`. You can find the definition in the `web.php` and the implementation in the `CompanyController.php` class. 
    If the user selects a company, only the jobs which belong to this company should be shown in the list.
 
 For all the filter options, the list in the UI should automatically update without a page refresh.
@@ -69,7 +69,7 @@ Here is a UI mockup of the home page to give you a hint about the layout.
 ## Project Setup
 
 In order to get you started quickly we have created a basic project setup for you. It uses the PHP web framework [Laravel](https://laravel.com),
-which we also use at jobs.at for our projects. It gives you a great starting point to prototype a web app with PHP, Vue, HTML, CSS and JavaScript.
+which we also use at jobs.at for our projects. It gives you a great starting point to prototype a web app with PHP, HTML, CSS and JavaScript.
 
 ## Requirements to run this project
 If you have PHP, composer and Node installed on your machine can skip the the following two steps and continue with the
@@ -94,7 +94,7 @@ Now, you are already setup to run this project for the first time.
 
 1. Get the playground to your machine by either
     * Forking the repository into your github account (preferred).
-    * If for whatever reason you do not have a Github account run `git clone https://github.com/jobs-at/coding-exercise-frontend.git coding-exercise` to clone the repository to your machine.
+    * If for whatever reason you do not have a Github account run `git clone https://github.com/jobs-at/coding-exercise-vanilla-js.git coding-exercise` to clone the repository to your machine.
 2. Run `cd coding-exercise` to change to the project folder.
 3. Run `composer install` to install all PHP dependencies.
 4. Copy the content of `.env.example` to `.env` file.
