@@ -29,4 +29,9 @@ class JobController extends Controller
 
         return response()->json($job, Response::HTTP_CREATED);
     }
+
+    public function addJob()
+    {
+        return view('add-job', ['jobs' => Job::all()]);
+    }
 }

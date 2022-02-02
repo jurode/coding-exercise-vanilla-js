@@ -1,0 +1,53 @@
+/* ====================== */
+/* == Standard Classes == */
+/* ====================== */
+
+.bgr-white {
+    background-color: #fff;
+}
+
+.bgr-main {
+    background-color: #2EA0B1;
+}
+
+.bgr-light {
+    background-color: #DDEAEA;
+}
+
+.bgr-grey {
+    background-color: #A2A4A4;
+}
+
+.tx-grey {
+    color: #A2A4A4;
+}
+
+.border-main {
+    border: 1px solid #2EA0B1;
+}
+
+/* ====================== */
+/* === Header / Main ==== */
+/* ====================== */
+
+.h-25-w-25 {
+    height: 25px;
+    width: 25px;
+}
+
+main {
+    margin-top: 90px;
+}
+
+/* ====================== */
+/* ====== Listing ======= */
+/* ====================== */
+
+.font-14 {
+    font-size: 14px;
+}
+
+.inactive {
+    -webkit-filter: grayscale(1);
+    filter: grayscale(1);
+}

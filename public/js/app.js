@@ -2062,6 +2062,230 @@ module.exports = {
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+var jobs = Array.from(document.getElementsByClassName('job-container')); // ==================
+// == INPUT FILTER
+// ==================
+
+document.addEventListener('keyup', function () {
+  var input = document.getElementById('input-search');
+  jobs.forEach(function (element) {
+    var title = element.children[0].innerText.toLowerCase();
+    var container = element;
+
+    if (!title.includes(input.value.toLowerCase())) {
+      container.classList.add('d-none');
+    } else {
+      if (container.classList.contains('d-none')) {
+        container.classList.remove('d-none');
+      }
+    }
+  });
+}); // ==================
+// == GET DATA
+// ==================
+
+var companies = [];
+axios({
+  method: 'get',
+  url: '/companies',
+  responseType: 'stream'
+}).then(function (result) {
+  result.data.companies.forEach(function (comp) {
+    companies.push(comp.name);
+  });
+  getCompanies();
+});
+var locations = [];
+jobs.forEach(function (element) {
+  var loc = element.children[1].children[1].innerText;
+
+  if (!locations.find(function (el) {
+    return el === loc;
+  })) {
+    locations.push(loc);
+  }
+}); // manipulate jobs according published (should be done with php/blade)
+
+var dateTime = new Date().toISOString(); // FIXME
+
+jobs.forEach(function (element) {
+  var published_at = document.querySelector('.job-container').children[1].children[2].innerText; // if (published_at != (dateTime - 7 Tage)
+  //      jobs.classList.add('d-none');
+  // FIXME
+}); // =================================
+// == CREATE JOBS / COMPANIES FILTER
+// =================================
+
+var outputL = document.getElementById('locations');
+locations.forEach(function (loc, index) {
+  var span = document.createElement("span");
+  span.classList.add('d-block');
+  outputL.appendChild(span);
+  var input = document.createElement('input');
+  input.type = 'checkbox';
+  input.classList.add('me-1');
+  input.setAttribute('id', 'location' + index);
+  span.appendChild(input);
+  var label = document.createElement('label');
+  label.setAttribute('for', 'location' + index);
+  var textnode = document.createTextNode(loc);
+  label.appendChild(textnode);
+  span.appendChild(label);
+});
+
+var getCompanies = function getCompanies() {
+  var outputC = document.getElementById('companies');
+  companies.forEach(function (comp, index) {
+    var span = document.createElement("span");
+    span.classList.add('d-block');
+    outputC.appendChild(span);
+    var input = document.createElement('input');
+    input.type = 'checkbox';
+    input.classList.add('me-1');
+    input.setAttribute('id', 'company' + index);
+    span.appendChild(input);
+    var label = document.createElement('label');
+    label.setAttribute('for', 'company' + index);
+    var textnode = document.createTextNode(comp);
+    label.appendChild(textnode);
+    span.appendChild(label);
+  });
+  var companyFieldsRaw = document.querySelectorAll('.job-container .company');
+  companyFieldsRaw.forEach(function (el) {
+    var id = el.children[0].value;
+    el.innerText = companies[id - 1];
+  });
+}; // =================================
+// == FILTER LOCATIONS/COMPANIES
+// =================================
+
+
+var cbLocations = document.querySelectorAll('#locations [type="checkbox"]');
+var labelLocations = document.querySelectorAll('#locations label');
+var showLocation = []; // e.g. [Salzburg, Graz]
+
+cbLocations.forEach(function (loc, index) {
+  loc.addEventListener('change', function () {
+    if (loc['checked']) {
+      if (!showLocation.find(function (el) {
+        return el === labelLocations[index].innerText;
+      })) {
+        showLocation.push(labelLocations[index].innerText);
+      }
+    } else {
+      showLocation = showLocation.filter(function (el) {
+        return el !== labelLocations[index].innerText;
+      });
+    }
+
+    jobs.forEach(function (element) {
+      var jobLocation = element.children[1].children[1].innerText;
+      var container = element;
+
+      if (!showLocation.find(function (el) {
+        return el === jobLocation;
+      }) && showLocation.length > 0) {
+        if (!container.classList.contains('d-none')) {
+          container.classList.add('d-none');
+        }
+      } else {
+        if (container.classList.contains('d-none')) {
+          container.classList.remove('d-none');
+        }
+      }
+    });
+  });
+});
+var showCompanies = [];
+setTimeout(function () {
+  var cbCompanies = document.querySelectorAll('#companies [type="checkbox"]');
+  var labelCompanies = document.querySelectorAll('#companies label');
+  cbCompanies.forEach(function (comp, index) {
+    comp.addEventListener('change', function () {
+      if (comp['checked']) {
+        if (!showCompanies.find(function (el) {
+          return el === labelCompanies[index].innerText;
+        })) {
+          showCompanies.push(labelCompanies[index].innerText);
+        }
+      } else {
+        showCompanies = showCompanies.filter(function (el) {
+          return el !== labelCompanies[index].innerText;
+        });
+      }
+
+      jobs.forEach(function (element) {
+        var company = element.children[1].children[0].innerText;
+        var container = element;
+
+        if (!showCompanies.find(function (el) {
+          return el === company;
+        }) && showCompanies.length > 0) {
+          if (!container.classList.contains('d-none')) {
+            container.classList.add('d-none');
+          }
+        } else {
+          if (container.classList.contains('d-none')) {
+            container.classList.remove('d-none');
+          }
+        }
+      });
+    });
+  });
+}, 1000); // FIXME
+// =================================
+// == ADD-JOB
+// =================================
+// FIXME: separates .js-File:
+
+var signedIn = false; // ! change here for switching mode
+
+var username = 'admin';
+var password = 'supersecure';
+var signForm = document.getElementById('signForm');
+var addForm = document.getElementById('addForm');
+var feedback = document.getElementById('feedback');
+var showFeedback = false; // FIXME
+
+if (!signedIn) {
+  signForm.classList.remove('d-none');
+  addForm.classList.add('d-none');
+} else {
+  signForm.classList.add('d-none');
+  addForm.classList.remove('d-none');
+}
+
+if (!showFeedback) {
+  feedback.classList.add('d-none');
+} else {
+  feedback.classList.remove('d-none');
+} // FIXME
+
+
+function onSubmit() {
+  var submittedUsername = document.getElementById('username');
+  var submittedPassword = document.getElementById('password');
+
+  if (submittedUsername === username && submittedPassword === password) {
+    signedIn = true;
+  } else {
+    feedback.innerText = 'Username oder Passwort falsch.';
+  }
+}
+
+if (signedIn) {
+  var selectContainer = document.getElementById('company-select');
+  setTimeout(function () {
+    companies.forEach(function (comp, index) {
+      var option = document.createElement('option');
+      option.setAttribute('value', index);
+      var text = document.createTextNode(comp);
+      option.appendChild(text);
+      selectContainer.appendChild(option);
+    });
+  }, 1500); // FIXME
+} // FIXME: Submit Job & Post Job in DB => weil in php (click) mit .js nicht aufrufbar, nicht gemacht
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
